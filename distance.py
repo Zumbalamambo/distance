@@ -35,9 +35,9 @@ while cap.isOpened():
                     distance = 703/radius
                     cv2.circle(image, (int(centerX), int(centerY)),
                                int(radius), (0, 255, 0), -1)
-                    cv2.putText(image, "{}".format(distance),
+                    cv2.putText(image, "{:.2f}".format(distance),
                                 (int(centerX), int(centerY)),
-                                cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255))
+                                cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 255))
     cv2.drawContours(image, cnts, -1, (0, 0, 255), 1)
     out.write(image)
     cv2.imshow("out", image)
