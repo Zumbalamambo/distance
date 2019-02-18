@@ -2,10 +2,15 @@
 import numpy as np
 import cv2
 
+fd_ratio = 300/205  # f - focal length, d - sensor height
+dot_height = 20
 
 cap = cv2.VideoCapture(0)
 width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
 height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+
+multiplier = fd_ratio * dot_height * height / 20
+
 fourcc = cv2.VideoWriter_fourcc(*'XVID')
 out = cv2.VideoWriter("output.avi", fourcc, 20.0, (width, height), True)
 
@@ -32,10 +37,10 @@ while cap.isOpened():
             if centerY >= height//2 - size//2 and \
                centerY <= height//2 + size//2:
                 if radius <= size//2:
-                    distance = 703/radius
+                    distance = multiplier/radius
                     cv2.circle(image, (int(centerX), int(centerY)),
                                int(radius), (0, 255, 0), -1)
-                    cv2.putText(image, "{:.2f}".format(distance),
+                    cv2.putText(image, "{:.2f} cm".format(distance),
                                 (int(centerX), int(centerY)),
                                 cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 255))
     cv2.drawContours(image, cnts, -1, (0, 0, 255), 1)
