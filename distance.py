@@ -6,7 +6,6 @@ import cv2
 cap = cv2.VideoCapture(0)
 width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
 height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
-
 fourcc = cv2.VideoWriter_fourcc(*'XVID')
 out = cv2.VideoWriter("output.avi", fourcc, 20.0, (width, height), True)
 
@@ -33,9 +32,10 @@ while cap.isOpened():
             if centerY >= height//2 - size//2 and \
                centerY <= height//2 + size//2:
                 if radius <= size//2:
+                    distance = 703/radius
                     cv2.circle(image, (int(centerX), int(centerY)),
                                int(radius), (0, 255, 0), -1)
-                    cv2.putText(image, "{}".format(radius),
+                    cv2.putText(image, "{}".format(distance),
                                 (int(centerX), int(centerY)),
                                 cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255))
     cv2.drawContours(image, cnts, -1, (0, 0, 255), 1)
