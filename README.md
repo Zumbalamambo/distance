@@ -19,3 +19,8 @@ Place your camera in front of a wall. Measure the distance between the camera an
 Calculate the fd ratio using this equation:
 
 <a href="https://www.codecogs.com/eqnedit.php?latex=\frac{f}{d}&space;=&space;\frac{X}{2Y}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\frac{f}{d}&space;=&space;\frac{X}{2Y}" title="\frac{f}{d} = \frac{X}{2Y}" /></a>
+
+## Prerequisites
+
+* Python 3
+* OpenCV
