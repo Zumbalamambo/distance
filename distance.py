@@ -1,9 +1,24 @@
 #!/usr/bin/env python3
 import numpy as np
 import cv2
+import argparse
 
-fd_ratio = 300/205  # f - focal length, d - sensor height
-dot_height = 20
+ap = argparse.ArgumentParser()
+help_fd = "The ratio of focal length to sensor height (default == 905/590)"
+help_dh = "Dot's height (default == 20)"
+ap.add_argument("-fd", "--fdratio", required=False, help=help_fd)
+ap.add_argument("-dh", "--dotheight", required=False, help=help_dh)
+args = vars(ap.parse_args())
+
+if args["fdratio"] is not None:
+    fd_ratio = float(args["fdratio"])
+else:
+    fd_ratio = 905/590
+
+if args["dotheight"] is not None:
+    dot_height = float(args["dotheight"])
+else:
+    dot_height = 20
 
 cap = cv2.VideoCapture(0)
 width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
@@ -11,8 +26,9 @@ height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
 
 multiplier = fd_ratio * dot_height * height / 20
 
-fourcc = cv2.VideoWriter_fourcc(*'XVID')
-out = cv2.VideoWriter("output.avi", fourcc, 20.0, (width, height), True)
+# Uncomment to output the recording
+# fourcc = cv2.VideoWriter_fourcc(*'XVID')
+# out = cv2.VideoWriter("output.avi", fourcc, 20.0, (width, height), True)
 
 mask = np.zeros((height, width), dtype="uint8")
 size = 200
@@ -44,12 +60,16 @@ while cap.isOpened():
                                 (int(centerX), int(centerY)),
                                 cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 255))
     cv2.drawContours(image, cnts, -1, (0, 0, 255), 1)
-    out.write(image)
+
+    # Uncomment to output the recording
+    # out.write(image)
     cv2.imshow("out", image)
     k = cv2.waitKey(1) & 0xFF
     if k == 27 or k == ord('q'):
         break
 
 cap.release()
-out.release()
+
+# Uncomment to output the recording
+# out.release()
 cv2.destroyAllWindows()
